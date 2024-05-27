@@ -1,7 +1,7 @@
 # Balanced truncation with conformal maps
 In the ./code there are all the files needed to run the experiments in the paper
 
-> A. Borghi, T. Breiten, S. Gugercin, *Balanced truncation with conformal maps*, ArXiv preprint (2024) 
+> A. Borghi, T. Breiten, S. Gugercin, *Balanced truncation with conformal maps*, [ArXiv preprint](https://arxiv.org/abs/2405.15656) (2024) 
 
 Below find a list of what script to run for each single section.
 
