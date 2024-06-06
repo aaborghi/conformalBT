@@ -14,6 +14,6 @@ Below find a list of what script to run for each single section.
 - `schroedinger_equationH2.m` (for the H2 error)
 
 ### Section 5.3 (Wave equation)
-- `wave_equation.m` (for the time trajectories)
+- `wave_equation.m` (for the time trajectories). In case this example takes too long to compute, please refer to the email of the first author in the preprint to ask for the dataset containing the Gramians.
 
 
