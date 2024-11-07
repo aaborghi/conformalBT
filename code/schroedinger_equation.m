@@ -56,7 +56,7 @@ Cr = C*Vr;
 eig(Ar)
 
 
-% Running Extended IRKA
+% Running conformalIRKA
 phi = @(z) (conj(z)); 
 init = -500i -1000i*rand(r,1);
 [Ar_,Br_,Cr_,sigma] = conformalIRKA(A,B,C,r,phi,init,500);

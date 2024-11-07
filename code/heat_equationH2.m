@@ -77,7 +77,7 @@ for i = 1:size(rset,2)
 
     [H2A(i),~] = H2Anorm(AA,BB,CC,Ar,Br,Cr,psi,dpsi);
     
-    % Running extended IRKA
+    % Running conformalIRKA
     phi = @(z) (c+(R^2)/(conj(z)-conj(c)));
     init = 100*rand(r,1)+50;
     [Ar_,Br_,Cr_,~] = conformalIRKA(AA,BB,CC,r,phi, init, 1000);

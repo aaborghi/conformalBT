@@ -49,7 +49,7 @@ Ar = Wr'*AA*Vr;
 Br = Wr'*BB;
 Cr = CC*Vr;
 
-% Running extended IRKA
+% Running conformalIRKA
 phi = @(z) (c+(R^2)/(conj(z)-conj(c)));
 [Ar_,Br_,Cr_,~] = conformalIRKA(AA,BB,CC,r,phi, 10i*rand(r,1)-5i+10, 500);
 
