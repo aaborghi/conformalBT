@@ -1,4 +1,4 @@
-%% Schroedinger trajectories
+%% schroedginer trajectories
 
 clear; clc;
 rng(42)
@@ -36,7 +36,7 @@ n = size(A,1);
 A=-1i*A;
 
 % Running Algorithm conformalBT
-r = 9; 
+r = 6; %6
 
 U = lyapchol(1i*A, B);
 L = lyapchol((1i*A)', C');
@@ -53,25 +53,40 @@ Ar = (Wr'*A*Vr);
 Br = (Wr'*B);
 Cr = C*Vr;
 
-% checking that the eigenvalues are approximately on the imaginary axis
 eig(Ar)
 
-% Computing systems output trajectories for specific gaussian input
+
+% Running Extended IRKA
+phi = @(z) (conj(z)); 
+init = -500i -1000i*rand(r,1);
+[Ar_,Br_,Cr_,sigma] = conformalIRKA(A,B,C,r,phi,init,500);
+
+eig(Ar_)
+
+
+% Computing systems output trajectories
 inputu = @(t) exp(-(t-1).^2./0.1)-2*exp(-(t-3).^2./0.01);
 dynamics = @(t,x,A,B) A*x+B*ones(m,1)*inputu(t);
-options = odeset('RelTol',1e-8,'AbsTol',1e-12); 
+options = odeset('RelTol',1e-8,'AbsTol',1e-12); %1e-8
 [t1,x] = ode23(dynamics,linspace(0,5,1000),zeros(nx,1),options,A,B);
 y1 = C*x.';
 [~,xr] = ode23(dynamics,linspace(0,5,1000),zeros(r,1),options,Ar,Br);
 y2 = Cr*xr.';
 error = y1-y2;
+[~,xr_] = ode23(dynamics,linspace(0,5,1000),zeros(r,1),options,Ar_,Br_);
+y2_ = Cr_*xr_.';
+error_ = y1-y2_;
 gaussinput = inputu(t1); 
 
-% compute error for each time step
 froerror = zeros(1,size(t1,1));
+froerror_ = zeros(1,size(t1,1));
 for i = 1:size(t1,1)
     froerror(i) = norm(y1(:,i) - y2(:,i),'fro')/norm(y1(:,i),'fro');
 end
+for i = 1:size(t1,1)
+    froerror_(i) = norm(y1(:,i) - y2_(:,i),'fro')/norm(y1(:,i),'fro');
+end
+
 
 %% Plots
 figure()
@@ -81,19 +96,20 @@ plot(t1,real(y1),'r-', 'Linewidth', 3); hold on
 plot(t1,real(y2),'b--', 'Linewidth', 3);
 plot(t1,imag(y1),'r-.', 'Linewidth', 3);
 plot(t1,imag(y2),'b:', 'Linewidth', 3);
-title('Schr\"odinger equation','Interpreter','latex')
+title(['\fontsize{14}{0}\selectfont Schr\"odinger equation'],'Interpreter','latex')
 ax = gca;
 ax.FontSize = 18; 
-legend({'Re$\{y(t)\}$','Re$\{y_r(t)\}$','Im$\{y(t)\}$','Im$\{y_r(t)\}$'},'fontsize',20, 'interpreter','latex', 'Location', 'northwest', 'NumColumns',4)
+legend({['\fontsize{13}{0}\selectfont Re$\{y(t)\}$'],['\fontsize{13}{0}\selectfont Re$\{\widehat{y}_r(t)\}$'],['\fontsize{13}{0}\selectfont Im$\{y(t)\}$'],['\fontsize{13}{0}\selectfont Im$\{\widehat{y}_r(t)\}$']},'fontsize',20, 'interpreter','latex', 'Location', 'northwest', 'NumColumns',4)
 subplot(3,1,2)
-semilogy(t1,froerror,'k', 'Linewidth', 3);
+semilogy(t1,froerror,'k', 'Linewidth', 3); hold on
+semilogy(t1,froerror_,'r--', 'Linewidth', 3);
 ax = gca;
 ax.FontSize = 18; 
-ylabel('$|y(t)-y_r(t)|/|y(t)|$', 'interpreter','latex')
-legend('conformalBT','fontsize',22, 'interpreter','latex', 'Location', 'southeast', 'NumColumns',2)
+ylabel(['\fontsize{14}{0}\selectfont $|(y(t)-\hat{y}_r(t))/y(t)|$'], 'interpreter','latex')
+legend('conformalBT','Extended IRKA','fontsize',22, 'interpreter','latex', 'Location', 'southeast', 'NumColumns',2)
 subplot(3,1,3)
 plot(t1,gaussinput,'k:', 'Linewidth', 3);
-ylabel('$u(t)$', 'interpreter','latex')
-xlabel('time [s]','interpreter','latex')
+ylabel(['\fontsize{14}{0}\selectfont $u(t)$'], 'interpreter','latex')
+xlabel(['\fontsize{14}{0}\selectfont time [s]'],'interpreter','latex')
 ax = gca;
 ax.FontSize = 18; 
