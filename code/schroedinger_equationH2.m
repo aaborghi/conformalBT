@@ -84,7 +84,7 @@ for i = 1:size(rset,2)
 
     [H2A_(i),~] = H2Anorm(A,B,C,Ar_,Br_,Cr_,psi,dpsi);
 
-    computing the bound
+    % computing the bound
     w = [-logspace(0,5,1000)+1,logspace(0,5,1000)-1];
     partbound = zeros(1,size(w,2));
     for j = 1:1:size(w,2)
