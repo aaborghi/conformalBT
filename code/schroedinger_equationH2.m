@@ -110,7 +110,7 @@ bound = sqrt(bound);
 figure()
 semilogy(rset, H2A, 'r-x', 'Linewidth', 1.5); hold on
 semilogy(rset, H2A_, 'b--o', 'Linewidth', 1.5);
-semilogy(rset, bound, 'k--','Linewidth', 1.5); hold off
+% semilogy(rset, bound, 'k--','Linewidth', 1.5); hold off
 xlabel('$r$', 'Interpreter','latex');
 ylabel('$\mathcal{H}_2(A)$ error', 'Interpreter','latex');
 legend('conformalBT','conformalIRKA','$\mathcal{H}_2$ bound','fontsize',20, 'interpreter','latex', 'Location', 'northwest')

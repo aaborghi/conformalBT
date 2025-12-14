@@ -100,12 +100,11 @@ eig(Ar_)
 % Computing systems output trajectories for impulse response
 dynamics = @(t,x,A,B) A*x;
 options = odeset('RelTol',1e-8,'AbsTol',1e-12);
-% [t1,x] = ode23(dynamics,linspace(0,5,1000),BB*ones(m,1),options,AA,BB);
-% y1 = CC*x';
+[t1,x] = ode23(dynamics,linspace(0,5,1000),BB*ones(m,1),options,AA,BB);
+y1 = CC*x';
 [t2,xr] = ode23(dynamics,linspace(0,5,1000),Br*ones(m,1),options,Ar,Br);
 y2 = Cr*xr.';
 error = y1-y2;
-
 [~,xr_] = ode23(dynamics,linspace(0,5,1000),Br_*ones(m,1),options,Ar_,Br_);
 y2_ = Cr_*xr_.';
 error_ = y1-y2_;
